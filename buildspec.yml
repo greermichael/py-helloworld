@@ -1,0 +1,23 @@
+version: 0.1
+
+phases:
+  install:
+    commands:
+      - echo Entered the install phase...
+  pre_build:
+    commands:
+      - echo Logging into AWS ECR...
+      - $(aws ecr get-login --no-include-email --region us-east-1) 
+  build:
+    commands:
+      - echo Build started on `date`
+      - cd src
+      - docker build -t helloworld:latest .
+      - docker tag helloworld:latest 111860764813.dkr.ecr.us-east-1.amazonaws.com/helloworld:latest
+    finally:
+      - echo This always runs even if the install command fails
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Push latest Docker image to ECR
+      - docker push 111860764813.dkr.ecr.us-east-1.amazonaws.com/helloworld:latest
