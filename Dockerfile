@@ -4,7 +4,7 @@ RUN mkdir -p /k8s_python/src
 
 WORKDIR /k8s_python/src
 
-COPY . .
+COPY ./src .
 
 # Application Environment variables
 ENV APP_ENV development
